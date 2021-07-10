@@ -11,9 +11,23 @@
 <body>
     <div class="container">
         <h1>Carrito de Compras</h1>
+        <div class="row" id="items"></div>
     </div>
 
-    <script src="app.js"></script>
+    <template id="template-card">
+        <div class="col-12 col-md-4">
+            <div>
+                <img src=".." alt="" class="imagen__producto">
+                <div>
+                    <h5>Título</h5>
+                    <p>precio</p>
+                    <button>Comprar</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="assets/js/app.js"></script>
 </body>
 
 </html>
