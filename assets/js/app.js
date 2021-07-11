@@ -9,6 +9,10 @@ let carrito = {}
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchData();
+    if (localStorage.getItem('carrito')) {
+        carrito = JSON.parse(localStorage.getItem('carrito'))
+        inyectarCarrito();
+    }
 })
 cards.addEventListener('click', e => {
     agregarCarrito(e);
@@ -85,6 +89,8 @@ const inyectarCarrito = () => {
     items.appendChild(fragment)
 
     inyectarFooter();
+
+    localStorage.setItem('carrito', JSON.stringify(carrito))
 }
 
 const inyectarFooter = () => {
@@ -121,8 +127,19 @@ const btnAccion = e => {
     if (e.target.classList.contains('btn-info')) {
         console.log(carrito[e.target.dataset.id])
         const producto = carrito[e.target.dataset.id]
-        producto.cantidad = carrito[e.target.dataset.id].cantidad + 1
-        carrito[e.target.dataset.id] = {...producto }
+        producto.cantidad++
+            carrito[e.target.dataset.id] = {...producto }
         inyectarCarrito();
     }
+    //disminuir cantidad
+    if (e.target.classList.contains('btn-danger')) {
+        const producto = carrito[e.target.dataset.id]
+        producto.cantidad--
+            if (producto.cantidad === 0) {
+                delete carrito[e.target.dataset.id]
+            }
+        inyectarCarrito();
+    }
+
+    e.stopPropagation()
 }
