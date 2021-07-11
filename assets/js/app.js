@@ -14,6 +14,10 @@ cards.addEventListener('click', e => {
     agregarCarrito(e);
 })
 
+items.addEventListener('click', e => {
+    btnAccion(e);
+})
+
 const fetchData = async() => {
     try {
         const res = await fetch('api.json');
@@ -109,4 +113,16 @@ const inyectarFooter = () => {
         inyectarCarrito();
     })
 
+}
+
+const btnAccion = e => {
+    // console.log(e.target)
+    //Aumentando cantidad 
+    if (e.target.classList.contains('btn-info')) {
+        console.log(carrito[e.target.dataset.id])
+        const producto = carrito[e.target.dataset.id]
+        producto.cantidad = carrito[e.target.dataset.id].cantidad + 1
+        carrito[e.target.dataset.id] = {...producto }
+        inyectarCarrito();
+    }
 }
