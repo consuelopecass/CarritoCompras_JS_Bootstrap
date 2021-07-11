@@ -65,7 +65,8 @@ const setCarrito = objeto => {
 }
 
 const inyectarCarrito = () => {
-    console.log(carrito);
+    // console.log(carrito);
+    items.innerHTML = ''
     Object.values(carrito).forEach(producto => {
         templateCarrito.querySelector('th').textContent = producto.title
         templateCarrito.querySelectorAll('td')[0].textContent = producto.title
@@ -78,5 +79,34 @@ const inyectarCarrito = () => {
         fragment.appendChild(clone)
     })
     items.appendChild(fragment)
+
+    inyectarFooter();
+}
+
+const inyectarFooter = () => {
+    footer.innerHTML = '';
+    if (Object.keys(carrito).length === 0) {
+        footer.innerHTML = `<th scope="row" colspan="5">Carrito vacío - comience a comprar!</th>`
+        return
+    }
+
+    const nCantidad = Object.values(carrito).reduce((acumulador, { cantidad }) => acumulador + cantidad, 0)
+    const nPrecio = Object.values(carrito).reduce((acumulador, { cantidad, precio }) => acumulador + cantidad * precio, 0)
+    console.log(nCantidad)
+    console.log(nPrecio)
+
+    templateFooter.querySelectorAll('td')[0].textContent = nCantidad;
+    templateFooter.querySelector('span').textContent = nPrecio;
+
+    const clone = templateFooter.cloneNode(true);
+    fragment.appendChild(clone);
+
+    footer.appendChild(fragment);
+
+    const btnVaciar = document.getElementById('vaciar-carrito');
+    btnVaciar.addEventListener('click', () => {
+        carrito = {}
+        inyectarCarrito();
+    })
 
 }
